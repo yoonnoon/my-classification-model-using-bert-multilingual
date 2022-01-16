@@ -101,7 +101,7 @@ def update_inference_result(context, data):
 def main(args=None):
     context = Context(argument_parser().parse_args(args))
     setup_logging(context)
-    log.info(f"Model inference fin. [uid=%s]." % context.uid)
+    log.info(f"Model inference start. [uid=%s]." % context.uid)
 
     labels = get_label_dict()
     df = get_dataset(context)
