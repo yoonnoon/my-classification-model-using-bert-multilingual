@@ -1,0 +1,40 @@
+logging:
+  version: 1
+  disable_existing_loggers: true
+  formatters:
+    verbose:
+      format: '[%(asctime)s][LOGGER:%(name)s][%(levelname)s] - %(message)s'
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: verbose
+      stream: ext://sys.stdout
+  root:
+    level: INFO
+    handlers:
+      - console
+
+aws:
+  s3:
+    region: ${AWS_S3_REGION:ap-northeast-2}
+    access_key: ${AWS_S3_ACCESS_KEY}
+    secret_key: ${AWS_S3_SECRET_KEY}
+    bucket: ${AWS_S3_BUCKET:bucket}
+    endpoint_url: ${AWS_S3_ENDPOINT_URL:http://localhost:4566}  # only using localstack s3
+
+databases:
+  main:
+    vendor: ${MAIN_VENDOR:postgresql}
+    dbname: ${MAIN_DBNAME:postgres}
+    user: ${MAIN_USER:user}
+    pwd: ${MAIN_USER_PWD:1234}
+    host: ${MAIN_HOST:localhost}
+    port: ${MAIN_PORT:5432}
+  readonly:
+    vendor: ${READ_VENDOR:postgresql}
+    dbname: ${READ_DBNAME:postgres}
+    user: ${READ_USER:user}
+    pwd: ${READ_USER_PWD:1234}
+    host: ${READ_HOST:localhost}
+    port: ${READ_PORT:5432}
