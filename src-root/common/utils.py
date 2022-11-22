@@ -41,7 +41,26 @@ def make_tarfile(tar_filepath, source_dir):
 
 def extract_tarfile(extract_dir, tar_filepath):
     with tarfile.open(tar_filepath, "r:gz") as tar:
-        tar.extractall(extract_dir)
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(tar, extract_dir)
 
 
 def prerequisites_check__state_is_true(state):
